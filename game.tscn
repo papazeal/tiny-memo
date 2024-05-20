@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsky4oktosxu8"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_dytu8"]
+[ext_resource type="PackedScene" uid="uid://c38ylj0221lv" path="res://dot.tscn" id="1_f0nln"]
+
+[node name="game" type="Node2D"]
+script = ExtResource("1_dytu8")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(272, 192, 128, 192, 128, 336, 272, 336, 272, 192)
+default_color = Color(0.942823, 0.942823, 0.942823, 1)
+
+[node name="dot" parent="." instance=ExtResource("1_f0nln")]
+position = Vector2(128, 192)
+
+[node name="dot2" parent="." instance=ExtResource("1_f0nln")]
+position = Vector2(272, 192)
+
+[node name="dot3" parent="." instance=ExtResource("1_f0nln")]
+position = Vector2(128, 336)
+
+[node name="dot4" parent="." instance=ExtResource("1_f0nln")]
+position = Vector2(272, 336)

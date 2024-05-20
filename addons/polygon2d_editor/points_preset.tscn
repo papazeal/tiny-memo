@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://by15oytwiknyi"]
+
+[ext_resource type="Script" path="res://addons/polygon2d_editor/points_preset.gd" id="1_5gjh4"]
+
+[node name="preset" type="HBoxContainer"]
+z_index = 10
+offset_right = 208.0
+offset_bottom = 31.0
+size_flags_horizontal = 8
+alignment = 2
+script = ExtResource("1_5gjh4")
+
+[node name="name" type="Button" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+text = "sel"
+alignment = 2
+
+[node name="rename" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "preset"
+placeholder_text = "preset"
+alignment = 2
+expand_to_text_length = true
+
+[node name="sel" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "sel"
+alignment = 2
+
+[node name="del" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/icon_normal_color = Color(1, 0.270588, 0.211765, 1)
+text = "del"
+alignment = 2
+
+[connection signal="mouse_exited" from="rename" to="." method="_on_rename_mouse_exited"]
+[connection signal="text_submitted" from="rename" to="." method="_on_rename_text_submitted"]
+[connection signal="pressed" from="sel" to="." method="_on_sel_pressed"]
+[connection signal="pressed" from="del" to="." method="_on_del_pressed"]
