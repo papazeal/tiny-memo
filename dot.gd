@@ -1,7 +1,7 @@
 extends Area2D
 class_name Dot
 
-@onready var sprite = $Sprite2D
+@onready var sprite = $sprite
 var dot_color = Color.WHITE
 var is_showing = false
 var index = 0
@@ -21,7 +21,10 @@ func init(color:Color):
 
 func reveal():
 	is_showing = true
-	sprite.modulate = dot_color
+	#sprite.modulate = dot_color
+	#sprite.scale = Vector2(1.3,1.3)
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "modulate", dot_color, 0.25).set_ease(Tween.EASE_IN)
 	pass
 	
 func disclose():
@@ -33,5 +36,6 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event.is_action_pressed("click"):
 		#print_debug('click')
 		#sprite.modulate = dot_color
+		
 		emit_signal('click', self)
 	pass # Replace with function body.

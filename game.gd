@@ -1,6 +1,8 @@
 extends Node2D
 
 @onready var line:Line2D = $Line2D
+@onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
@@ -34,14 +36,20 @@ func init_level():
 
 
 func _on_dot_click(dot:Dot):
-	if selected_dots.size() < 2:
-		print('click')
-		selected_dots.append(dot)
-		dot.reveal()
+	if selected_dots.size() >= 2:
+		return
 	
-	await get_tree().create_timer(1.0).timeout
+	print('click')
+	
+	selected_dots.append(dot)
+	audio.pitch_scale = 1+((selected_dots.size()-1)*0.1)
+	audio.play()
+	dot.reveal()
+	
+	
 	
 	if selected_dots.size() == 2:
+		await get_tree().create_timer(0.75).timeout
 		#check color
 		if selected_dots[0].dot_color == selected_dots[1].dot_color:
 			print('match!')
@@ -49,6 +57,8 @@ func _on_dot_click(dot:Dot):
 			#selected_dots[1].queue_free()
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			audio.pitch_scale = 1.4
+			audio.play()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
