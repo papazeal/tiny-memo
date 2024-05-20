@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.2", "GL Compatibility")
 
 window/size/viewport_width=400
 window/size/viewport_height=600
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 window/handheld/orientation=1
 
 [editor_plugins]
