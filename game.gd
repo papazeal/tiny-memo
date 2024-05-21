@@ -5,7 +5,7 @@ var TapSound = preload("res://tap.mp3")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
-var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.MEDIUM_TURQUOISE]
+var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL]
 var line:Line2D = Line2D.new()
 var level = 1
 # Called when the node enters the scene tree for the first time.
@@ -17,7 +17,7 @@ func _ready():
 	line.default_color = Color(255,255,255,0.5)
 	add_child(line)
 	
-	generate_line()
+	#generate_line()
 	init_level()
 	pass # Replace with function body.
 
@@ -74,20 +74,30 @@ func clear_level():
 	pass	
 
 func init_level():
-	var rng = RandomNumberGenerator.new()
+	
+	var points = []
+	var row = 3
+	var col = 4
+	var grid_size = 70
+	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
+	var padding_y = grid_size
+	for x in col:
+		for y in row:
+			points.append(Vector2(pading_x+x*grid_size,padding_y+y*grid_size))
 	
 	# pallet
 	var pallet = []
 	pallet.assign(colors_set)
+	pallet = pallet+pallet
 	pallet.shuffle()
 	print('pallet',pallet)
-	pallet.resize(line.points.size()/2)
+	pallet.resize(points.size()/2)
 	
 	pallet = pallet+pallet
 	pallet.shuffle()
 	
 	var i = 0
-	for p in line.points:
+	for p in points:
 		print_debug(p)
 		#p.x += 20-40*rng.randf()
 		#p.y += 20-40*rng.randf()
@@ -151,8 +161,8 @@ func _on_dot_click(dot:Dot):
 		if all_dots_inactive:
 			await get_tree().create_timer(1.50).timeout
 			clear_level()
-			level += 1
-			generate_line(level*2)
+			#level += 1
+			#generate_line(level*2)
 			init_level()
 	
 	pass # Replace with function body.
