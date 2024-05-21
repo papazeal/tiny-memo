@@ -15,6 +15,8 @@ signal click(dot:Dot)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var rng = RandomNumberGenerator.new()
+	dot_core.scale = dot_core.scale * rng.randf_range(1,1.2)
 	audio.stream = tap_sound
 	dot_bg.visible = false
 	pass # Replace with function body.
