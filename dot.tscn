@@ -4,15 +4,20 @@
 [ext_resource type="Texture2D" uid="uid://ddxfqn4lybvgo" path="res://dot.svg" id="2_1gjxd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s1m4s"]
-radius = 35.0
+radius = 26.0
 
 [node name="dot" type="Area2D"]
 script = ExtResource("1_yg0dm")
 
 [node name="sprite" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="sprite"]
-scale = Vector2(0.615385, 0.615385)
+[node name="bg" type="Sprite2D" parent="sprite"]
+modulate = Color(1, 1, 1, 0.196078)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_1gjxd")
+
+[node name="core" type="Sprite2D" parent="sprite"]
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_1gjxd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -18,7 +18,13 @@ func _ready():
 func _process(delta):
 	
 	pass
-	
+
+func clear_level():
+	for d in dots:
+		d.queue_free()
+	dots.clear()
+	pass	
+
 func init_level():
 	# pallet
 	var pallet = colors_set
@@ -44,17 +50,21 @@ func init_level():
 
 
 func _on_dot_click(dot:Dot):
+	print('click')
+	
+	# select dot must not more than 2
 	if selected_dots.size() >= 2:
 		return
 	
-	print('click')
+	# check duplicate
+	if selected_dots.size() == 1:
+		if selected_dots[0] == dot:
+			return
 	
 	selected_dots.append(dot)
 	audio.pitch_scale = 1+((selected_dots.size()-1)*0.1)
 	audio.play()
 	dot.reveal()
-	
-	
 	
 	if selected_dots.size() == 2:
 		await get_tree().create_timer(0.75).timeout
@@ -63,14 +73,24 @@ func _on_dot_click(dot:Dot):
 			print('match!')
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			selected_dots[0].deactivate()
+			selected_dots[1].deactivate()
 			audio.pitch_scale = 1.4
 			audio.play()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			
 		selected_dots.clear()
 	
-	if dots.size() == 0:
-		init_level()
+		# check active dots
+		var all_dots_inactive = true
+		for d in dots:
+			if d.is_active:
+				all_dots_inactive = false
+		if all_dots_inactive:
+			await get_tree().create_timer(1.50).timeout
+			clear_level()
+			init_level()
 	
 	pass # Replace with function body.
