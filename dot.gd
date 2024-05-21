@@ -4,6 +4,8 @@ class_name Dot
 @onready var sprite = $sprite
 @onready var dot_core = $sprite/core
 @onready var dot_bg = $sprite/bg
+@onready var audio = $AudioStreamPlayer
+var tap_sound = preload("res://tap.mp3")
 var dot_color = Color.WHITE
 var is_showing = false
 var is_active = true
@@ -12,6 +14,7 @@ signal click(dot:Dot)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	audio.stream = tap_sound
 	dot_bg.visible = false
 	pass # Replace with function body.
 
@@ -21,6 +24,11 @@ func _process(delta):
 
 func init(color:Color):
 	dot_color = color
+	pass
+
+func sfx_tap(pitch:float):
+	audio.pitch_scale = pitch
+	audio.play()
 	pass
 
 func reveal():

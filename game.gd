@@ -62,8 +62,9 @@ func _on_dot_click(dot:Dot):
 			return
 	
 	selected_dots.append(dot)
-	audio.pitch_scale = 1+((selected_dots.size()-1)*0.1)
-	audio.play()
+	dot.sfx_tap(1+((selected_dots.size()-1)*0.1))
+	#audio.pitch_scale = 1+((selected_dots.size()-1)*0.1)
+	#audio.play()
 	dot.reveal()
 	
 	if selected_dots.size() == 2:
