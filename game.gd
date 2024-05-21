@@ -6,7 +6,7 @@ var TapSound = preload("res://tap.mp3")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
-var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL]
+var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.MEDIUM_TURQUOISE]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,7 +16,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
+	for d in dots:
+		if d.position != d.next_position:
+			d.position.x = move_toward(d.position.x, d.next_position.x, 300*delta)
+			d.position.y = move_toward(d.position.y, d.next_position.y, 300*delta)
+			
 	pass
 
 func clear_level():
@@ -26,14 +30,20 @@ func clear_level():
 	pass	
 
 func init_level():
+	var rng = RandomNumberGenerator.new()
+	var points_count = 2
+	for i in points_count:
+		
+		pass
+	
 	# pallet
 	var pallet = colors_set
+	pallet.shuffle()
+	pallet.resize(line.points.size()/2)
 	pallet = pallet+pallet
 	pallet.shuffle()
 	
-	var rng = RandomNumberGenerator.new()
 	var i = 0
-	
 	for p in line.points:
 		print_debug(p)
 		#p.x += 20-40*rng.randf()
@@ -42,12 +52,17 @@ func init_level():
 		d.init(pallet[i])
 		d.index = i
 		d.position = p
+		d.next_position = p
 		d.connect('click', _on_dot_click)
 		add_child(d)
 		dots.append(d)
 		i += 1
 	pass
 
+func rotate_dots():
+	for i in dots.size():
+		dots[i-1].next_position = dots[i%dots.size()].position
+	pass
 
 func _on_dot_click(dot:Dot):
 	print('click')
@@ -78,6 +93,7 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].deactivate()
 			audio.pitch_scale = 1.4
 			audio.play()
+			rotate_dots()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()

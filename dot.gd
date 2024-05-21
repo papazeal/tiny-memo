@@ -10,6 +10,7 @@ var dot_color = Color.WHITE
 var is_showing = false
 var is_active = true
 var index = 0
+var next_position = Vector2()
 signal click(dot:Dot)
 
 # Called when the node enters the scene tree for the first time.
