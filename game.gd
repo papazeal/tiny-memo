@@ -1,6 +1,10 @@
 extends Node2D
 
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var p1:Mob = $p1
+@onready var p2:Mob = $p2
+var current_player:Mob = null
+
 var TapSound = preload("res://tap.mp3")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
@@ -8,10 +12,10 @@ var dots = []
 var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DARK_TURQUOISE]
 var line:Line2D = Line2D.new()
 var level = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio.stream = TapSound
-	
 	
 	line.width = 5
 	line.default_color = Color(255,255,255,0.5)
@@ -25,7 +29,7 @@ func _ready():
 func _process(delta):
 	#input
 	if Input.is_action_just_pressed("action"):
-		generate_line()
+		pass
 	
 	for d in dots:
 		if d.position != d.next_position:
@@ -34,38 +38,6 @@ func _process(delta):
 			
 	pass
 
-func generate_line(point_count:int=2):
-	if point_count > 6:
-		point_count = 6
-	line.clear_points()
-	var gird_size = 20
-	var line_points = []
-	var rng = RandomNumberGenerator.new()
-	
-		
-	for i in point_count:
-		var good_point = false
-		var distance = 59
-		var point = Vector2()
-		while !good_point:
-			point = Vector2(rng.randi_range(5,15) * gird_size, rng.randi_range(5,25) * gird_size)
-			# first point
-			if line_points.size() == 0:
-				good_point = true
-			
-			good_point = true
-			for p in line_points:
-				if point.distance_to(p) < 100:
-					good_point = false
-			
-		line_points.append(point)
-	
-	#draw line
-	#var line:Line2D = Line2D.new()
-	for point in line_points:
-		line.add_point(point)
-	#add_child(line)
-	pass
 
 func clear_level():
 	for d in dots:
@@ -110,6 +82,24 @@ func init_level():
 		add_child(d)
 		dots.append(d)
 		i += 1
+		
+	# set player
+	switch_player()
+	
+	pass
+
+func switch_player():
+	if current_player == null:
+		current_player = p1
+	
+	if current_player == p1:
+		current_player = p2
+		p1.set_deactive()
+		p2.set_active()
+	else:
+		current_player = p1
+		p1.set_active()
+		p2.set_deactive()
 	pass
 
 func rotate_dots():
@@ -150,6 +140,7 @@ func _on_dot_click(dot:Dot):
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			switch_player()
 			
 		selected_dots.clear()
 	
@@ -161,8 +152,6 @@ func _on_dot_click(dot:Dot):
 		if all_dots_inactive:
 			await get_tree().create_timer(1.50).timeout
 			clear_level()
-			#level += 1
-			#generate_line(level*2)
 			init_level()
 	
 	pass # Replace with function body.
