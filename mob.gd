@@ -37,7 +37,7 @@ func set_deactive():
 	pass
 
 func add_score():
-	score += 20
+	score += 25
 	pass
 
 func bounce():
