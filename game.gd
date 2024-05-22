@@ -5,7 +5,7 @@ var TapSound = preload("res://tap.mp3")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
-var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL]
+var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DARK_TURQUOISE]
 var line:Line2D = Line2D.new()
 var level = 1
 # Called when the node enters the scene tree for the first time.
@@ -76,9 +76,9 @@ func clear_level():
 func init_level():
 	
 	var points = []
-	var row = 3
+	var row = 4
 	var col = 4
-	var grid_size = 70
+	var grid_size = 75
 	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
 	var padding_y = grid_size
 	for x in col:
