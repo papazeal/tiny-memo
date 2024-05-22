@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://bg8guk5tt0btt"]
+[gd_scene load_steps=10 format=3 uid="uid://bg8guk5tt0btt"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_odp5r"]
 [ext_resource type="Texture2D" uid="uid://pbit4j05yrhg" path="res://body.svg" id="1_yiq72"]
 [ext_resource type="Texture2D" uid="uid://byqgdwaqiwfd7" path="res://face-1.svg" id="2_uyqov"]
-[ext_resource type="Texture2D" uid="uid://ddxfqn4lybvgo" path="res://dot.svg" id="3_nsvo8"]
+[ext_resource type="Texture2D" uid="uid://ckk0bqf7jo8jp" path="res://arrow.svg" id="4_ghgta"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oovc4"]
+font_size = 40
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vabew"]
 size = Vector2(110, 180)
@@ -21,7 +24,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(1, 0.203063, 1),
 "update": 0,
-"values": [Vector2(0, -132), Vector2(2.08165e-12, -145), Vector2(0, -132)]
+"values": [Vector2(0, -132), Vector2(2.08165e-12, -136), Vector2(0, -132)]
 }
 
 [sub_resource type="Animation" id="Animation_ldjg2"]
@@ -51,24 +54,35 @@ script = ExtResource("1_odp5r")
 [node name="body" type="Node2D" parent="."]
 
 [node name="body" type="Sprite2D" parent="body"]
-modulate = Color(0.768975, 0.753169, 0.763419, 1)
-scale = Vector2(0.3, 0.491)
+modulate = Color(0.2, 0.2, 0.2, 1)
+position = Vector2(0, 33.355)
+scale = Vector2(0.3, 0.666553)
 texture = ExtResource("1_yiq72")
 
 [node name="face" type="Sprite2D" parent="body"]
-position = Vector2(0.434209, -64)
-scale = Vector2(0.268526, 0.248867)
+position = Vector2(0.434209, -85)
+scale = Vector2(0.274653, 0.254545)
 texture = ExtResource("2_uyqov")
+
+[node name="Label" type="Label" parent="body"]
+visible = false
+offset_left = -51.0
+offset_top = -67.0
+offset_right = 49.0
+offset_bottom = -12.0
+text = "10"
+label_settings = SubResource("LabelSettings_oovc4")
+horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("RectangleShape2D_vabew")
 
 [node name="arrow" type="Sprite2D" parent="."]
-modulate = Color(0.957847, 3.7741e-07, 0.504246, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 position = Vector2(0, -132)
-scale = Vector2(0.230769, 0.230769)
-texture = ExtResource("3_nsvo8")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_ghgta")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,8 +1,8 @@
 extends Node2D
 
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
-@onready var p1:Mob = $p1
-@onready var p2:Mob = $p2
+@onready var p1:Mob = $CanvasLayer/Container/p1
+@onready var p2:Mob = $CanvasLayer/Container/p2
 var current_player:Mob = null
 
 var TapSound = preload("res://tap.mp3")
@@ -46,6 +46,8 @@ func clear_level():
 	pass	
 
 func init_level():
+	p1.init()
+	p2.init()
 	
 	var points = []
 	var row = 4
@@ -136,6 +138,7 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].deactivate()
 			audio.pitch_scale = 1.4
 			audio.play()
+			current_player.add_score()
 			#rotate_dots()
 		else:
 			selected_dots[0].disclose()
