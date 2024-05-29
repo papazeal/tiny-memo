@@ -1,28 +1,29 @@
 extends Node2D
 
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
-@onready var p1:Mob = $CanvasLayer/Container/p1
-@onready var p2:Mob = $CanvasLayer/Container/p2
 var current_player:Mob = null
 
 var TapSound = preload("res://tap.mp3")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
-var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DARK_TURQUOISE]
+var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DARK_TURQUOISE, Color.MEDIUM_SLATE_BLUE]
+
 var line:Line2D = Line2D.new()
 var level = 1
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio.stream = TapSound
-	
+	colors_set = colors_set+colors_set
 	line.width = 5
 	line.default_color = Color(255,255,255,0.5)
 	add_child(line)
 	
 	#generate_line()
 	init_level()
+	next_level()
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,11 +47,10 @@ func clear_level():
 	pass	
 
 func init_level():
-	p1.init()
-	p2.init()
+	
 	
 	var points = []
-	var row = 4
+	var row = 6
 	var col = 4
 	var grid_size = 75
 	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
@@ -84,25 +84,21 @@ func init_level():
 		add_child(d)
 		dots.append(d)
 		i += 1
-		
-	# set player
-	switch_player()
-	
 	pass
 
-func switch_player():
-	if current_player == null:
-		current_player = p1
-	
-	if current_player == p1:
-		current_player = p2
-		p1.set_deactive()
-		p2.set_active()
-	else:
-		current_player = p1
-		p1.set_active()
-		p2.set_deactive()
+func next_level():
+	dots.shuffle()
+	for i in level:
+		dots[i*2].set_color(colors_set[i])
+		dots[i*2+1].set_color(colors_set[i])
+		dots[i*2].activate()
+		dots[i*2+1].activate()
+	level = level+1
+	if(level > 4):
+		level = 5
 	pass
+	
+
 
 func rotate_dots():
 	for i in dots.size():
@@ -138,12 +134,10 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].deactivate()
 			audio.pitch_scale = 1.4
 			audio.play()
-			current_player.add_score()
 			#rotate_dots()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
-			switch_player()
 			
 		selected_dots.clear()
 	
@@ -156,5 +150,6 @@ func _on_dot_click(dot:Dot):
 			await get_tree().create_timer(1.50).timeout
 			clear_level()
 			init_level()
+			next_level()
 	
 	pass # Replace with function body.

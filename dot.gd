@@ -19,6 +19,8 @@ func _ready():
 	#dot_core.scale = dot_core.scale * rng.randf_range(1,1.2)
 	audio.stream = tap_sound
 	dot_bg.visible = false
+	is_active = false
+	sprite.scale = Vector2(0.3,0.3)
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,6 +28,10 @@ func _process(delta):
 	pass
 
 func init(color:Color):
+	dot_color = color
+	pass
+
+func set_color(color:Color):
 	dot_color = color
 	pass
 
@@ -48,11 +54,24 @@ func disclose():
 	dot_bg.visible = false
 	dot_core.modulate = Color.WHITE
 	pass
+
+#func activate():
+	#is_active = true
 	
+func activate():
+	var tween = get_tree().create_tween()
+	dot_core.modulate = dot_color
+	tween.tween_property(sprite, "scale", Vector2(1,1), 0.4).set_ease(Tween.EASE_OUT)
+	tween.tween_property(dot_core, "modulate", Color.WHITE, 0.4)
+	tween.tween_callback(set_active)
+
+func set_active():
+	is_active = true
+
 func deactivate():
 	is_active = false
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "scale", Vector2(0.4,0.4), 0.4).set_ease(Tween.EASE_OUT)
+	tween.tween_property(sprite, "scale", Vector2(0.3,0.3), 0.4).set_ease(Tween.EASE_OUT)
 	pass
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int):
