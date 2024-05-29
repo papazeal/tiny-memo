@@ -50,11 +50,11 @@ func init_level():
 	
 	
 	var points = []
-	var row = 6
+	var row = 7
 	var col = 4
 	var grid_size = 75
 	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
-	var padding_y = grid_size
+	var padding_y = (get_viewport_rect().size.y - grid_size*(row-1))/2
 	for x in col:
 		for y in row:
 			points.append(Vector2(pading_x+x*grid_size,padding_y+y*grid_size))
