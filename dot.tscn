@@ -17,6 +17,11 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_1gjxd")
 
 [node name="core" type="Sprite2D" parent="sprite"]
+modulate = Color(0.781948, 0.389781, 0.9469, 1)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_1gjxd")
+
+[node name="cover" type="Sprite2D" parent="sprite"]
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_1gjxd")
 
