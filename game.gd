@@ -13,14 +13,12 @@ var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DAR
 var line:Line2D = Line2D.new()
 var level = 1
 var rng = RandomNumberGenerator.new()
+var hp = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio.stream = TapSound
-	colors_set = colors_set+colors_set
-	line.width = 5
-	line.default_color = Color(255,255,255,0.5)
-	add_child(line)
+	#colors_set = colors_set+colors_set
 	
 	#generate_line()
 	init_level()
@@ -50,8 +48,7 @@ func expand():
 
 func clear_level():
 	for d in dots:
-		d.queue_free()
-	dots.clear()
+		d.deactivate()
 	pass	
 
 func init_level():
@@ -84,7 +81,6 @@ func init_level():
 		#d.init(pallet[i])
 		d.index = i
 		
-		
 		d.expand_pos = p
 		d.compact_pos = compact_points[i]
 		d.position = p
@@ -95,8 +91,12 @@ func init_level():
 		i += 1
 	pass
 
-func next_level():
+func next_level(lv=null):
+	if lv:
+		level = lv
+	hp = 3
 	dots.shuffle()
+	colors_set.shuffle()
 	for i in level:
 		dots[i*2].set_color(colors_set[i])
 		dots[i*2+1].set_color(colors_set[i])
@@ -106,12 +106,18 @@ func next_level():
 	if(level > 4):
 		level = 5
 	pass
-	
 
 
-func rotate_dots():
-	for i in dots.size():
-		dots[i-1].next_position = dots[i%dots.size()].position
+func success_sound():
+	#audio.play()
+	#get_tree().create_timer(0.5).timeout
+	#audio.pitch_scale = 1.1
+	#audio.stop()
+	#audio.play()
+	#get_tree().create_timer(0.5).timeout
+	#audio.pitch_scale = 1.2
+	#audio.stop()
+	#audio.play()
 	pass
 
 func _on_dot_click(dot:Dot):
@@ -146,6 +152,8 @@ func _on_dot_click(dot:Dot):
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			hp -= 1
+				
 			
 		selected_dots.clear()
 	
@@ -155,9 +163,19 @@ func _on_dot_click(dot:Dot):
 			if d.is_active:
 				all_dots_inactive = false
 		if all_dots_inactive:
-			await get_tree().create_timer(1.50).timeout
+			
+			#await get_tree().create_timer(1.5).timeout
+			success_sound()
+			await get_tree().create_timer(1.5).timeout
 			clear_level()
-			init_level()
+			#init_level()
 			next_level()
+			
+		# game over
+		if hp == 0:
+			clear_level()
+			#reset_level()
+			await get_tree().create_timer(1.0).timeout
+			next_level(1)
 	
 	pass # Replace with function body.

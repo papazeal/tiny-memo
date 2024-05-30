@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsky4oktosxu8"]
+[gd_scene load_steps=3 format=3 uid="uid://dsky4oktosxu8"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_dytu8"]
+[ext_resource type="AudioStream" uid="uid://b3wopv2cek0u8" path="res://drop_002.ogg" id="2_nogex"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_dytu8")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_nogex")
