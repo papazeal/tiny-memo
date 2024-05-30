@@ -12,11 +12,10 @@ var is_active = true
 var index = 0
 var next_position = Vector2()
 signal click(dot:Dot)
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#var rng = RandomNumberGenerator.new()
-	#dot_core.scale = dot_core.scale * rng.randf_range(1,1.2)
 	audio.stream = tap_sound
 	dot_bg.visible = false
 	is_active = false
@@ -61,8 +60,10 @@ func disclose():
 func activate():
 	var tween = get_tree().create_tween()
 	dot_core.modulate = dot_color
-	tween.tween_property(sprite, "scale", Vector2(1,1), 0.4).set_ease(Tween.EASE_OUT)
-	tween.tween_property(dot_core, "modulate", Color.WHITE, 0.4)
+	#tween.tween_interval(rng.randi_range(0,5)*0.5).finished
+	tween.tween_property(sprite, "scale", Vector2(1,1), 1.75).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	#tween.tween_property(sprite, "scale", Vector2(1,1), 0.4)
+	tween.tween_property(dot_core, "modulate", Color.WHITE, 0.2)
 	tween.tween_callback(set_active)
 
 func set_active():

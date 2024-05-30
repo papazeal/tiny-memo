@@ -50,11 +50,11 @@ func init_level():
 	
 	
 	var points = []
-	var row = 7
+	var row = 6
 	var col = 4
 	var grid_size = 75
 	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
-	var padding_y = (get_viewport_rect().size.y - grid_size*(row-1))/2
+	var padding_y = (get_viewport_rect().size.y - grid_size*(row-1))/2 * 0.8
 	for x in col:
 		for y in row:
 			points.append(Vector2(pading_x+x*grid_size,padding_y+y*grid_size))
@@ -119,8 +119,7 @@ func _on_dot_click(dot:Dot):
 	
 	selected_dots.append(dot)
 	dot.sfx_tap(1+((selected_dots.size()-1)*0.1))
-	#audio.pitch_scale = 1+((selected_dots.size()-1)*0.1)
-	#audio.play()
+	#dot.sfx_tap(1)
 	dot.reveal()
 	
 	if selected_dots.size() == 2:
