@@ -3,7 +3,8 @@ extends Node2D
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
 var current_player:Mob = null
 
-var TapSound = preload("res://tap.mp3")
+#var TapSound = preload("res://tap.mp3")
+var TapSound = preload("res://drop_002.ogg")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []

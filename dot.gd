@@ -5,7 +5,8 @@ class_name Dot
 @onready var dot_core = $sprite/core
 @onready var dot_bg = $sprite/bg
 @onready var audio = $AudioStreamPlayer
-var tap_sound = preload("res://tap.mp3")
+#var tap_sound = preload("res://tap.mp3")
+var tap_sound = preload("res://drop_002.ogg")
 var dot_color = Color.WHITE
 var is_showing = false
 var is_active = true
