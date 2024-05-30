@@ -68,17 +68,17 @@ func disclose():
 		tween.kill()
 	tween = get_tree().create_tween()
 	#tween.tween_property(dot_core, "modulate", Color.WHITE, 0.3)
-	tween.tween_property(dot_cover, "modulate", Color(255,255,255, 1), 0.2)
+	tween.tween_property(dot_cover, "modulate", Color(255,255,255, 1), 0.1)
 	pass
 
 	
 func activate():
+	await get_tree().create_timer(rng.randi_range(1,4)*0.2).timeout
 	if tween:
 		tween.kill()
 	tween = get_tree().create_tween()
 	dot_core.modulate = dot_color
 	dot_cover.modulate = Color(255,255,255,0)
-	#tween.tween_interval(rng.randi_range(0,5)*0.5).finished
 	sprite.scale = Vector2(0.6,0.6)
 	tween.tween_property(sprite, "scale", Vector2(1,1), 1.75).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	#tween.tween_property(sprite, "scale", Vector2(1,1), 0.4)
@@ -92,11 +92,13 @@ func set_active():
 func deactivate():
 	is_active = false
 	#dot_core.modulate = Color.WHITE
+	dot_cover.modulate = Color.WHITE
 	if tween:
 		tween.kill()
-	tween = get_tree().create_tween().set_parallel(true)
-	tween.tween_property(dot_cover, "modulate", Color(255,255,255,1), 0.4)
-	tween.tween_property(sprite, "scale", Vector2(0.25,0.25), 0.4).set_ease(Tween.EASE_OUT)
+	tween = get_tree().create_tween()
+	
+	tween.tween_property(sprite, "scale", Vector2(0.25,0.25), 0.3).set_ease(Tween.EASE_OUT)
+	#tween.tween_property(dot_cover, "modulate", Color(255,255,255,1), 0.2)
 	pass
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int):

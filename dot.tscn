@@ -22,7 +22,7 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_1gjxd")
 
 [node name="cover" type="Sprite2D" parent="sprite"]
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.41, 0.41)
 texture = ExtResource("2_1gjxd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
