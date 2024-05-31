@@ -14,6 +14,10 @@ config/name="Tiny Memo"
 run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 
+[audio]
+
+driver/mix_rate=48000
+
 [display]
 
 window/size/viewport_width=400
