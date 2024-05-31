@@ -1,6 +1,8 @@
 extends Node2D
 
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var score_bar:ScoreBar = $score_bar
+@onready var hp_bar:HpBar = $hp_bar
 var current_player:Mob = null
 
 #var TapSound = preload("res://tap.mp3")
@@ -13,7 +15,8 @@ var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DAR
 var line:Line2D = Line2D.new()
 var level = 1
 var rng = RandomNumberGenerator.new()
-var hp = 3
+var hp = 1
+var max_level = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,25 +55,24 @@ func clear_level():
 	pass	
 
 func init_level():
-	hp = 3
 	var points = []
 	var compact_points = []
-	var row = 5
+	var row = 6
 	var col = 4
 	var grid_size = 75
 	
 	var pading_x = (get_viewport_rect().size.x - grid_size*(col-1))/2
-	var padding_y = (get_viewport_rect().size.y - grid_size*(row-1))/2
+	var padding_y = (get_viewport_rect().size.y - grid_size*(row-1))/2 + 20
 	for x in col:
 		for y in row:
 			points.append(Vector2(pading_x+x*grid_size,padding_y+y*grid_size))
 	
-	var compact_grid_size = 20
-	var compact_pading_x = (get_viewport_rect().size.x - compact_grid_size*(col-1))/2
-	var compact_padding_y = (get_viewport_rect().size.y - compact_grid_size*(row-1))/2
-	for x in col:
-		for y in row:
-			compact_points.append(Vector2(compact_pading_x+x*compact_grid_size,compact_padding_y+y*compact_grid_size))
+	score_bar.position = Vector2i(pading_x-5,padding_y-80)
+	score_bar.set_length(grid_size*3 +10)
+	score_bar.set_max_score(15)
+	
+	hp_bar.position = Vector2i(pading_x,padding_y-80)
+	hp_bar.set_hp(hp)
 	
 	var i = 0
 	for p in points:
@@ -82,7 +84,6 @@ func init_level():
 		d.index = i
 		
 		d.expand_pos = p
-		d.compact_pos = compact_points[i]
 		d.position = p
 		d.next_position = p
 		d.connect('click', _on_dot_click)
@@ -94,6 +95,12 @@ func init_level():
 func next_level(lv=null):
 	if lv:
 		level = lv
+	
+	# new game
+	if level == 1:
+		hp = 1
+		hp_bar.set_hp(hp)
+	
 	dots.shuffle()
 	#colors_set.shuffle()
 	var pallets = colors_set.duplicate()
@@ -150,11 +157,13 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].deactivate()
 			audio.pitch_scale = 1.3
 			audio.play()
+			score_bar.add_score(1, selected_dots[0].dot_color)
 			#rotate_dots()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
 			hp -= 1
+			hp_bar.set_hp(hp)
 				
 			
 		selected_dots.clear()
@@ -168,17 +177,20 @@ func _on_dot_click(dot:Dot):
 			
 			#await get_tree().create_timer(1.5).timeout
 			success_sound()
+			
 			await get_tree().create_timer(1.5).timeout
 			clear_level()
 			hp += 1
+			hp_bar.set_hp(hp)
 			#init_level()
 			next_level()
 			
 		# game over
-		#if hp == 0:
-			#clear_level()
-			##reset_level()
-			#await get_tree().create_timer(1.0).timeout
-			#next_level(1)
+		if hp == 0:
+			await get_tree().create_timer(1.0).timeout
+			clear_level()
+			#reset_level()
+			await get_tree().create_timer(1.5).timeout
+			next_level(1)
 	
 	pass # Replace with function body.
