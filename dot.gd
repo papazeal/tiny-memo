@@ -73,7 +73,7 @@ func disclose():
 	pass
 
 	
-func activate():
+func activate(lv=0):
 	await get_tree().create_timer(rng.randi_range(1,4)*0.2).timeout
 	if tween:
 		tween.kill()
@@ -82,7 +82,7 @@ func activate():
 	dot_cover.modulate = Color(255,255,255,0)
 	sprite.scale = Vector2(0.6,0.6)
 	tween.tween_property(sprite, "scale", Vector2(1,1), 1.75).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
-	#tween.tween_property(sprite, "scale", Vector2(1,1), 0.4)
+	tween.tween_property(sprite, "scale", Vector2(1,1), lv*0.1)
 	tween.tween_callback(set_active)
 	tween.tween_property(dot_cover, "modulate", Color(255,255,255,1), 0.5)
 

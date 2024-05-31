@@ -52,10 +52,10 @@ func clear_level():
 	pass	
 
 func init_level():
-	
+	hp = 3
 	var points = []
 	var compact_points = []
-	var row = 6
+	var row = 5
 	var col = 4
 	var grid_size = 75
 	
@@ -94,17 +94,19 @@ func init_level():
 func next_level(lv=null):
 	if lv:
 		level = lv
-	hp = 3
 	dots.shuffle()
-	colors_set.shuffle()
+	#colors_set.shuffle()
+	var pallets = colors_set.duplicate()
+	pallets.shuffle()
+	pallets += pallets
 	for i in level:
-		dots[i*2].set_color(colors_set[i])
-		dots[i*2+1].set_color(colors_set[i])
-		dots[i*2].activate()
-		dots[i*2+1].activate()
+		dots[i*2].set_color(pallets[i])
+		dots[i*2+1].set_color(pallets[i])
+		dots[i*2].activate(level)
+		dots[i*2+1].activate(level)
 	level = level+1
-	if(level > 4):
-		level = 5
+	if(level > 10):
+		level = 10
 	pass
 
 
@@ -168,14 +170,15 @@ func _on_dot_click(dot:Dot):
 			success_sound()
 			await get_tree().create_timer(1.5).timeout
 			clear_level()
+			hp += 1
 			#init_level()
 			next_level()
 			
 		# game over
-		if hp == 0:
-			clear_level()
-			#reset_level()
-			await get_tree().create_timer(1.0).timeout
-			next_level(1)
+		#if hp == 0:
+			#clear_level()
+			##reset_level()
+			#await get_tree().create_timer(1.0).timeout
+			#next_level(1)
 	
 	pass # Replace with function body.
