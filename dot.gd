@@ -40,6 +40,7 @@ func set_color(color:Color):
 	pass
 
 func sfx_tap(pitch:float):
+	audio.stop()
 	audio.pitch_scale = pitch
 	audio.play()
 	pass

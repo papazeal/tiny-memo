@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsky4oktosxu8"]
+[gd_scene load_steps=6 format=3 uid="uid://dsky4oktosxu8"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_dytu8"]
 [ext_resource type="AudioStream" uid="uid://b3wopv2cek0u8" path="res://drop_002.ogg" id="2_nogex"]
 [ext_resource type="PackedScene" uid="uid://c6ii34q01eewv" path="res://score_bar.tscn" id="3_o7utn"]
 [ext_resource type="PackedScene" uid="uid://dna5krs2d5etf" path="res://hp.tscn" id="4_cdfdc"]
+[ext_resource type="PackedScene" uid="uid://hg2yi0pa6mbi" path="res://midi.tscn" id="5_vo36e"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_dytu8")
@@ -17,3 +18,6 @@ position = Vector2(58, 59)
 
 [node name="hp_bar" parent="." instance=ExtResource("4_cdfdc")]
 position = Vector2(61, 52)
+
+[node name="midi" parent="." instance=ExtResource("5_vo36e")]
+position = Vector2(57, 48)

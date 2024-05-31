@@ -3,6 +3,7 @@ extends Node2D
 @onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var score_bar:ScoreBar = $score_bar
 @onready var hp_bar:HpBar = $hp_bar
+@onready var midi:Midi = $midi
 var current_player:Mob = null
 
 #var TapSound = preload("res://tap.mp3")
@@ -119,7 +120,7 @@ func next_level(lv=null):
 
 func success_sound():
 	#audio.play()
-	#get_tree().create_timer(0.5).timeout
+	get_tree().create_timer(1).timeout
 	#audio.pitch_scale = 1.1
 	#audio.stop()
 	#audio.play()
@@ -127,6 +128,7 @@ func success_sound():
 	#audio.pitch_scale = 1.2
 	#audio.stop()
 	#audio.play()
+	midi.play()
 	pass
 
 func _on_dot_click(dot:Dot):
@@ -155,6 +157,7 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].disclose()
 			selected_dots[0].deactivate()
 			selected_dots[1].deactivate()
+			audio.stop()
 			audio.pitch_scale = 1.3
 			audio.play()
 			score_bar.add_score(1, selected_dots[0].dot_color)
@@ -162,6 +165,9 @@ func _on_dot_click(dot:Dot):
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
+			audio.stop()
+			audio.pitch_scale = 0.7
+			audio.play()
 			hp -= 1
 			hp_bar.set_hp(hp)
 				
@@ -176,9 +182,11 @@ func _on_dot_click(dot:Dot):
 		if all_dots_inactive:
 			
 			#await get_tree().create_timer(1.5).timeout
-			success_sound()
 			
-			await get_tree().create_timer(1.5).timeout
+			
+			await get_tree().create_timer(1.0).timeout
+			success_sound()
+			await get_tree().create_timer(0.5).timeout
 			clear_level()
 			hp += 1
 			hp_bar.set_hp(hp)
