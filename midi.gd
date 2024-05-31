@@ -11,12 +11,12 @@ func _ready():
 func _process(delta):
 	pass
 
-func play(sequence:String = '123', bpm:float=300):
-	for i in 3:
+func play(notes:Array[int], bpm:float=300):
+	for i in notes:
 		var afx:AudioStreamPlayer = AudioStreamPlayer.new()
 		add_child(afx)
 		afx.stream = stream
-		afx.pitch_scale = pow(2,(i+i*3)/12.0)
+		afx.pitch_scale = pow(2,i/12.0)
 		afx.play()
 		await get_tree().create_timer(60/bpm).timeout
 	pass

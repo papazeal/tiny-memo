@@ -118,21 +118,15 @@ func next_level(lv=null):
 	pass
 
 
-func success_sound():
-	#audio.play()
-	get_tree().create_timer(1).timeout
-	#audio.pitch_scale = 1.1
-	#audio.stop()
-	#audio.play()
-	#get_tree().create_timer(0.5).timeout
-	#audio.pitch_scale = 1.2
-	#audio.stop()
-	#audio.play()
-	midi.play()
-	pass
 
+var processing_dot = false
 func _on_dot_click(dot:Dot):
 	print('click')
+	
+	if processing_dot:
+		return
+		
+	processing_dot = true
 	
 	# select dot must not more than 2
 	if selected_dots.size() >= 2:
@@ -180,25 +174,22 @@ func _on_dot_click(dot:Dot):
 			if d.is_active:
 				all_dots_inactive = false
 		if all_dots_inactive:
-			
-			#await get_tree().create_timer(1.5).timeout
-			
-			
 			await get_tree().create_timer(1.0).timeout
-			success_sound()
-			await get_tree().create_timer(0.5).timeout
+			midi.play([1,3,6])
 			clear_level()
+			await get_tree().create_timer(1).timeout
 			hp += 1
 			hp_bar.set_hp(hp)
-			#init_level()
 			next_level()
 			
 		# game over
 		if hp == 0:
 			await get_tree().create_timer(1.0).timeout
+			midi.play([5,3,0])
 			clear_level()
-			#reset_level()
-			await get_tree().create_timer(1.5).timeout
+			await get_tree().create_timer(2).timeout
 			next_level(1)
+			
+	processing_dot = false
 	
 	pass # Replace with function body.
