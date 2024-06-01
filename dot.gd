@@ -82,7 +82,7 @@ func activate(lv=0):
 	dot_core.modulate = dot_color
 	dot_cover.modulate = Color(255,255,255,0)
 	sprite.scale = Vector2(0.6,0.6)
-	tween.tween_property(sprite, "scale", Vector2(1,1), 1.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(sprite, "scale", Vector2(1,1), 1.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_property(sprite, "scale", Vector2(1,1), lv*0.2)
 	tween.tween_callback(set_active)
 	tween.tween_property(dot_cover, "modulate", Color(255,255,255,1), 0.5)

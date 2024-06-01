@@ -1,19 +1,18 @@
 extends Node2D
 
-@onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
+#@onready var audio:AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var score_bar:ScoreBar = $score_bar
 @onready var hp_bar:HpBar = $hp_bar
 @onready var midi:Midi = $midi
-var current_player:Mob = null
 
 #var TapSound = preload("res://tap.mp3")
-var TapSound = preload("res://drop_002.ogg")
+#var TapSound = preload("res://drop_002.ogg")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
 #var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.SLATE_BLUE]
-var colors_set = [Color('#f85d80'), Color('#a6cc34'), Color('#fbb10b'), Color('#7964ba')]
-
+var colors_set = [Color('#F85D6B'), Color('#a6cc34'), Color('#fba501'), Color('#7964ba')]
+#var a = Color.ORANGE
 var line:Line2D = Line2D.new()
 var level = 1
 var rng = RandomNumberGenerator.new()
@@ -22,7 +21,7 @@ var max_level = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	audio.stream = TapSound
+	#audio.stream = TapSound
 	#colors_set = colors_set+colors_set
 	
 	#generate_line()
@@ -76,22 +75,12 @@ func init_level():
 	hp_bar.position = Vector2i(pading_x,padding_y-80)
 	hp_bar.set_hp(hp)
 	
-	var i = 0
 	for p in points:
-		print_debug(p)
-		#p.x += 20-40*rng.randf()
-		#p.y += 20-40*rng.randf()
 		var d:Dot = Dot.instantiate()
-		#d.init(pallet[i])
-		d.index = i
-		
-		d.expand_pos = p
 		d.position = p
-		d.next_position = p
 		d.connect('click', _on_dot_click)
 		add_child(d)
 		dots.append(d)
-		i += 1
 	pass
 
 func next_level(lv=null):
@@ -107,6 +96,7 @@ func next_level(lv=null):
 	#colors_set.shuffle()
 	var pallets = colors_set.duplicate()
 	pallets.shuffle()
+	pallets += pallets
 	pallets += pallets
 	for i in level:
 		dots[i*2].set_color(pallets[i])
@@ -124,11 +114,6 @@ var processing_dot = false
 func _on_dot_click(dot:Dot):
 	print('click')
 	
-	if processing_dot:
-		return
-		
-	processing_dot = true
-	
 	# select dot must not more than 2
 	if selected_dots.size() >= 2:
 		return
@@ -138,9 +123,13 @@ func _on_dot_click(dot:Dot):
 		if selected_dots[0] == dot:
 			return
 	
+	if processing_dot:
+		return
+		
+	processing_dot = true
+	
 	selected_dots.append(dot)
-	dot.sfx_tap(1+((selected_dots.size()-1)*0.1))
-	#dot.sfx_tap(1)
+	midi.play([selected_dots.size()*2-4])
 	dot.reveal()
 	
 	if selected_dots.size() == 2:
@@ -152,19 +141,12 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].disclose()
 			selected_dots[0].deactivate()
 			selected_dots[1].deactivate()
-			#audio.stop()
-			#audio.pitch_scale = 1.3
-			#audio.play()
 			midi.play([5])
 			score_bar.add_score(1, selected_dots[0].dot_color)
-			#rotate_dots()
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
-			audio.stop()
-			audio.pitch_scale = 0.7
-			audio.play()
-			
+			midi.play([-5])
 			hp -= 1
 			hp_bar.set_hp(hp)
 				
