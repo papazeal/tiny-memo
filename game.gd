@@ -11,13 +11,14 @@ var TapSound = preload("res://drop_002.ogg")
 var Dot = preload("res://dot.tscn")
 var selected_dots = []
 var dots = []
-var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.DARK_TURQUOISE, Color.MEDIUM_SLATE_BLUE]
+#var colors_set = [Color.ORANGE, Color.YELLOW_GREEN, Color.LIGHT_CORAL, Color.SLATE_BLUE]
+var colors_set = [Color('#f85d80'), Color('#a6cc34'), Color('#fbb10b'), Color('#7964ba')]
 
 var line:Line2D = Line2D.new()
-var level = 1
+var level = 4
 var rng = RandomNumberGenerator.new()
 var hp = 1
-var max_level = 5
+var max_level = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -113,8 +114,8 @@ func next_level(lv=null):
 		dots[i*2].activate(level)
 		dots[i*2+1].activate(level)
 	level = level+1
-	if(level > 10):
-		level = 10
+	if(level > max_level):
+		level = max_level
 	pass
 
 
@@ -151,9 +152,10 @@ func _on_dot_click(dot:Dot):
 			selected_dots[1].disclose()
 			selected_dots[0].deactivate()
 			selected_dots[1].deactivate()
-			audio.stop()
-			audio.pitch_scale = 1.3
-			audio.play()
+			#audio.stop()
+			#audio.pitch_scale = 1.3
+			#audio.play()
+			midi.play([5])
 			score_bar.add_score(1, selected_dots[0].dot_color)
 			#rotate_dots()
 		else:
@@ -162,20 +164,21 @@ func _on_dot_click(dot:Dot):
 			audio.stop()
 			audio.pitch_scale = 0.7
 			audio.play()
+			
 			hp -= 1
 			hp_bar.set_hp(hp)
 				
 			
 		selected_dots.clear()
 	
-		# check active dots
+		# check lv pass
 		var all_dots_inactive = true
 		for d in dots:
 			if d.is_active:
 				all_dots_inactive = false
 		if all_dots_inactive:
 			await get_tree().create_timer(1.0).timeout
-			midi.play([1,3,6])
+			midi.play([1,6])
 			clear_level()
 			await get_tree().create_timer(1).timeout
 			hp += 1

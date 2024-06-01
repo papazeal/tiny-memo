@@ -47,7 +47,7 @@ func sfx_tap(pitch:float):
 
 func reveal():
 	is_showing = true
-	#dot_bg.visible = true
+	dot_bg.visible = true
 	#sprite.modulate = dot_color
 	#sprite.scale = Vector2(1.3,1.3)
 	if tween:
@@ -56,7 +56,7 @@ func reveal():
 	#tween.tween_property(dot_core, "modulate", dot_color, 0.2)
 	tween.tween_property(dot_cover, "modulate", Color(255,255,255, 0), 0.2)
 	
-	sprite.scale = Vector2(0.9,0.9)
+	sprite.scale = Vector2(0.85,0.85)
 	tween.tween_property(sprite, "scale", Vector2(1,1), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	pass
 	

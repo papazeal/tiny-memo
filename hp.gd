@@ -28,6 +28,7 @@ func set_hp(hp:int):
 	for i in dots.size():
 		if i<hp:
 			dots[i].modulate = Color.ORANGE_RED
+			#dots[i].modulate = Color('#d94a69')
 		else:
 			dots[i].modulate = Color(0,0,0,0)
 	pass
