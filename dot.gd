@@ -47,7 +47,7 @@ func sfx_tap(pitch:float):
 
 func reveal():
 	is_showing = true
-	dot_bg.visible = true
+	#dot_bg.visible = true
 	#sprite.modulate = dot_color
 	#sprite.scale = Vector2(1.3,1.3)
 	if tween:

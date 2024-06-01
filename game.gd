@@ -15,7 +15,7 @@ var dots = []
 var colors_set = [Color('#f85d80'), Color('#a6cc34'), Color('#fbb10b'), Color('#7964ba')]
 
 var line:Line2D = Line2D.new()
-var level = 4
+var level = 1
 var rng = RandomNumberGenerator.new()
 var hp = 1
 var max_level = 8
