@@ -6,6 +6,7 @@ class_name Dot
 @onready var dot_bg = $sprite/bg
 @onready var dot_cover = $sprite/cover
 @onready var audio = $AudioStreamPlayer
+@onready var midi:Midi = $midi
 #var tap_sound = preload("res://tap.mp3")
 var tap_sound = preload("res://drop_002.ogg")
 var dot_color = Color.WHITE
@@ -76,6 +77,7 @@ func disclose():
 	
 func activate(lv=0):
 	await get_tree().create_timer(rng.randi_range(1,4)*0.2).timeout
+	#midi.play([-2])
 	if tween:
 		tween.kill()
 	tween = get_tree().create_tween()

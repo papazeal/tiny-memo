@@ -4,6 +4,8 @@ extends Node2D
 @onready var score_bar:ScoreBar = $score_bar
 @onready var hp_bar:HpBar = $hp_bar
 @onready var midi:Midi = $midi
+@onready var score_label:Label = $score_container/score
+@onready var score_container = $score_container
 
 #var TapSound = preload("res://tap.mp3")
 #var TapSound = preload("res://drop_002.ogg")
@@ -18,6 +20,9 @@ var level = 1
 var rng = RandomNumberGenerator.new()
 var hp = 1
 var max_level = 8
+var score = 0
+var target_score = 0
+var combo = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,6 +41,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("action"):
 		expand()
 		pass
+	
+	#if score != target_score:
+		#score = move_toward(score, target_score, 100*delta)
+		
 	
 	#for d in dots:
 		#if d.position != d.next_position:
@@ -72,8 +81,12 @@ func init_level():
 	score_bar.set_length(grid_size*3 +10)
 	score_bar.set_max_score(15)
 	
-	hp_bar.position = Vector2i(pading_x,padding_y-80)
+	hp_bar.position = Vector2i(pading_x,padding_y-84)
 	hp_bar.set_hp(hp)
+	
+	# score label
+	reset_score()
+	score_container.position = Vector2i(pading_x+grid_size*3+10,padding_y-70)
 	
 	for p in points:
 		var d:Dot = Dot.instantiate()
@@ -90,7 +103,9 @@ func next_level(lv=null):
 	# new game
 	if level == 1:
 		hp = 1
+		combo = 0
 		hp_bar.set_hp(hp)
+		reset_score()
 	
 	dots.shuffle()
 	#colors_set.shuffle()
@@ -108,7 +123,15 @@ func next_level(lv=null):
 		level = max_level
 	pass
 
-
+func reset_score():
+	score = 0
+	score_label.text = str('000')
+	pass
+	
+func add_score(val:int):
+	score += val
+	score_label.text = str(score)
+	pass
 
 var processing_dot = false
 func _on_dot_click(dot:Dot):
@@ -142,12 +165,15 @@ func _on_dot_click(dot:Dot):
 			selected_dots[0].deactivate()
 			selected_dots[1].deactivate()
 			midi.play([5])
+			add_score(100+combo*10)
+			combo += 1
 			score_bar.add_score(1, selected_dots[0].dot_color)
 		else:
 			selected_dots[0].disclose()
 			selected_dots[1].disclose()
 			midi.play([-5])
 			hp -= 1
+			combo = 0
 			hp_bar.set_hp(hp)
 				
 			
@@ -164,6 +190,7 @@ func _on_dot_click(dot:Dot):
 			clear_level()
 			await get_tree().create_timer(1).timeout
 			hp += 1
+			combo = 0
 			hp_bar.set_hp(hp)
 			next_level()
 			
@@ -172,7 +199,7 @@ func _on_dot_click(dot:Dot):
 			await get_tree().create_timer(1.0).timeout
 			midi.play([5,3,0])
 			clear_level()
-			await get_tree().create_timer(2).timeout
+			await get_tree().create_timer(3).timeout
 			next_level(1)
 			
 	processing_dot = false

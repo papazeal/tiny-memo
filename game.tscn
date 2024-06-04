@@ -1,12 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsky4oktosxu8"]
+[gd_scene load_steps=8 format=3 uid="uid://dsky4oktosxu8"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_dytu8"]
 [ext_resource type="AudioStream" uid="uid://b3wopv2cek0u8" path="res://drop_002.ogg" id="2_nogex"]
 [ext_resource type="PackedScene" uid="uid://c6ii34q01eewv" path="res://score_bar.tscn" id="3_o7utn"]
 [ext_resource type="PackedScene" uid="uid://dna5krs2d5etf" path="res://hp.tscn" id="4_cdfdc"]
 [ext_resource type="PackedScene" uid="uid://hg2yi0pa6mbi" path="res://midi.tscn" id="5_vo36e"]
+[ext_resource type="FontFile" uid="uid://cjthsu5l22q7" path="res://AlphaProta-Regular.ttf" id="6_ulpdt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tw1hx"]
+font = ExtResource("6_ulpdt")
+font_size = 24
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_dytu8")
@@ -24,10 +27,22 @@ position = Vector2(61, 52)
 [node name="midi" parent="." instance=ExtResource("5_vo36e")]
 position = Vector2(57, 48)
 
-[node name="Label" type="Label" parent="."]
-visible = false
-modulate = Color(0.734253, 0.40604, 0.76119, 1)
-offset_right = 40.0
-offset_bottom = 23.0
-text = "100"
+[node name="score_container" type="Node2D" parent="."]
+position = Vector2(340, 40)
+metadata/_edit_group_ = true
+
+[node name="score" type="Label" parent="score_container"]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "1000"
 label_settings = SubResource("LabelSettings_tw1hx")
+horizontal_alignment = 2
+vertical_alignment = 2

@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.2", "GL Compatibility")
 
 [audio]
 
+driver/output_latency.web=90
 driver/mix_rate=48000
 
 [display]
@@ -28,7 +29,7 @@ window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/polygon2d_editor/plugin.cfg")
+enabled=PackedStringArray()
 
 [input]
 
