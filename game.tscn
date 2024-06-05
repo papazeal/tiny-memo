@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://c6ii34q01eewv" path="res://score_bar.tscn" id="3_o7utn"]
 [ext_resource type="PackedScene" uid="uid://dna5krs2d5etf" path="res://hp.tscn" id="4_cdfdc"]
 [ext_resource type="PackedScene" uid="uid://hg2yi0pa6mbi" path="res://midi.tscn" id="5_vo36e"]
-[ext_resource type="FontFile" uid="uid://cjthsu5l22q7" path="res://AlphaProta-Regular.ttf" id="6_ulpdt"]
+[ext_resource type="FontFile" uid="uid://bqwxlcx5qwpdo" path="res://DatDot-Light.ttf" id="6_psws1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_tw1hx"]
-font = ExtResource("6_ulpdt")
-font_size = 24
+font = ExtResource("6_psws1")
+font_size = 40
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_dytu8")
@@ -32,7 +32,7 @@ position = Vector2(340, 40)
 metadata/_edit_group_ = true
 
 [node name="score" type="Label" parent="score_container"]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0

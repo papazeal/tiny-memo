@@ -81,12 +81,12 @@ func init_level():
 	score_bar.set_length(grid_size*3 +10)
 	score_bar.set_max_score(15)
 	
-	hp_bar.position = Vector2i(pading_x,padding_y-84)
+	hp_bar.position = Vector2i(pading_x,padding_y-89)
 	hp_bar.set_hp(hp)
 	
 	# score label
 	reset_score()
-	score_container.position = Vector2i(pading_x+grid_size*3+10,padding_y-70)
+	score_container.position = Vector2i(pading_x+grid_size*3+10,padding_y-62)
 	
 	for p in points:
 		var d:Dot = Dot.instantiate()
@@ -125,7 +125,7 @@ func next_level(lv=null):
 
 func reset_score():
 	score = 0
-	score_label.text = str('000')
+	score_label.text = str('0')
 	pass
 	
 func add_score(val:int):
